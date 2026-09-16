@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DentalCare Clinic — Book Your Appointment on WhatsApp</title>
+<meta name="description" content="Book a dental appointment at DentalCare Clinic Abbottabad. Choose your service, pick a time, and send your request directly on WhatsApp.">
+<style>
+  :root {
+    --brand: #0e7490;
+    --brand-dark: #155e75;
+    --accent: #f59e0b;
+    --accent-dark: #d97706;
+    --bg: #f0f9ff;
+    --card: #ffffff;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+    color: #fff;
+    padding: 40px 0 56px;
+    text-align: center;
+  }
+  header .tagline {
+    display: inline-block;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+  header h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); font-weight: 800; line-height: 1.25; }
+  header h1 span { color: #fbbf24; }
+  header p.sub { color: #cffafe; max-width: 640px; margin: 12px auto 0; font-size: 1.05rem; }
+  .header-actions { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 24px; border-radius: 999px; border: none;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    text-decoration: none; transition: all 0.18s ease;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--accent); color: #3b2703; box-shadow: 0 6px 18px rgba(245,158,11,0.35); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+  .btn-whatsapp { background: #25d366; color: #04371a; box-shadow: 0 6px 18px rgba(37,211,102,0.35); }
+  .btn-whatsapp:hover { background: #1fb457; transform: translateY(-1px); }
+  .btn-block { display: flex; width: 100%; justify-content: center; }
+  .btn-sm { padding: 9px 18px; font-size: 0.9rem; }
+
+  /* Sections */
+  .section { padding: 52px 0; }
+  .section-title { text-align: center; font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+  .section-sub { text-align: center; color: var(--muted); margin-bottom: 30px; }
+
+  /* Services */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .service-card {
+    background: var(--card); border: 2px solid transparent; border-radius: var(--radius);
+    padding: 20px; cursor: pointer;
+    transition: all 0.18s ease; text-align: left;
+    font-family: inherit;
+  }
+  .service-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14,116,144,0.12); }
+  .service-card.selected { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(14,116,144,0.15); }
+  .service-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .service-card h3 { font-size: 1.02rem; margin-bottom: 4px; }
+  .service-card p { color: var(--muted); font-size: 0.88rem; }
+  .service-card .check {
+    float: right; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--line); color: transparent; font-size: 0.8rem;
+    display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+  }
+  .service-card.selected .check { background: var(--brand); color: #fff; }
+
+  /* Form */
+  .form-wrap { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; max-width: 620px; margin: 0 auto; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-weight: 600; font-size: 0.9rem; }
+  input, select, textarea {
+    padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px;
+    font-size: 1rem; font-family: inherit; background: #f8fafc; color: var(--ink);
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); background: #fff; }
+  textarea { resize: vertical; min-height: 74px; }
+  .error-msg { color: #dc2626; font-size: 0.8rem; display: none; }
+  .invalid input, .invalid select { border-color: #dc2626; }
+  .invalid .error-msg { display: block; }
+
+  /* Dashboard */
+  .dash { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .dash-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .dash-header h2 { font-size: 1.1rem; }
+  .dash-stats { display: flex; gap: 18px; flex-wrap: wrap; }
+  .dash-stats .stat b { font-size: 1.25rem; display: block; color: var(--brand-dark); }
+  .dash-stats .stat span { font-size: 0.78rem; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  thead th { text-align: left; padding: 10px 14px; background: #f8fafc; color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--line); }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .status-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+  .status-new { background: #dbeafe; color: #1d4ed8; }
+  .status-sent { background: #dcfce7; color: #15803d; }
+  .status-booked { background: #ede9fe; color: #6d28d9; }
+  .empty { padding: 30px; text-align: center; color: var(--muted); }
+  .empty .btn-sm { margin-top: 12px; }
+  .dash-footer { padding: 10px 20px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--muted); }
+
+  /* Footer */
+  footer { background: var(--brand-dark); color: #a5f3fc; padding: 30px 0; text-align: center; font-size: 0.9rem; }
+  footer a { color: #fff; }
+
+  /* Sticky WhatsApp button */
+  #stickyWa {
+    position: fixed; bottom: 18px; right: 18px; z-index: 50;
+    background: #25d366; color: #04371a; border-radius: 999px;
+    padding: 12px 20px; font-weight: 700; text-decoration: none;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.45);
+    display: flex; align-items: center; gap: 8px; font-size: 0.95rem;
+  }
+  #stickyWa:hover { background: #1fb457; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 80px; right: 18px; z-index: 60;
+    background: var(--ink); color: #fff; padding: 12px 18px;
+    border-radius: 12px; font-size: 0.9rem; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s; transform: translateY(8px);
+    max-width: 320px;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .section { padding: 40px 0; }
+    header { padding: 32px 0 46px; }
+    .dash-header { flex-direction: column; align-items: flex-start; }
+    #stickyWa { bottom: 14px; right: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <span class="tagline">🦷 Trusted dental care in Abbottabad</span>
+    <h1>DentalCare <span>Clinic</span></h1>
+    <p class="sub">Painless dentistry with modern equipment. Choose your service, request a time — your booking reaches us instantly on <strong>WhatsApp</strong>. We confirm within minutes during clinic hours.</p>
+    <div class="header-actions">
+      <a href="#appointment" class="btn btn-primary">Book an Appointment</a>
+      <a href="#services" class="btn btn-secondary">View Services</a>
+    </div>
+  </div>
+</header>
+
+<!-- Services -->
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-sub">Tap a service to select it — it will be added to your appointment request.</p>
+    <div class="services-grid" id="servicesGrid"></div>
+  </div>
+</section>
+
+<!-- Appointment form -->
+<section class="section" id="appointment" style="padding-top: 20px;">
+  <div class="container">
+    <h2 class="section-title">Request an Appointment</h2>
+    <p class="section-sub">Fill in your details and tap the WhatsApp button — your request opens in WhatsApp, ready to send.</p>
+    <div class="form-wrap">
+      <form id="apptForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fName">Your Name *</label>
+            <input type="text" id="fName" placeholder="e.g. Ahmed Khan" required>
+            <span class="error-msg">Please enter your name.</span>
+          </div>
+          <div class="form-group">
+            <label for="fPhone">Phone / WhatsApp *</label>
+            <input type="tel" id="fPhone" placeholder="03xx-xxxxxxx" required>
+            <span class="error-msg">Please enter your phone number.</span>
+          </div>
+          <div class="form-group">
+            <label for="fService">Service *</label>
+            <select id="fService" required>
+              <option value="">Select a service…</option>
+            </select>
+            <span class="error-msg">Please choose a service.</span>
+          </div>
+          <div class="form-group">
+            <label for="fDate">Preferred Date *</label>
+            <input type="date" id="fDate" required>
+            <span class="error-msg">Please pick a date.</span>
+          </div>
+          <div class="form-group">
+            <label for="fTime">Preferred Time *</label>
+            <select id="fTime" required>
+              <option value="">Select a time…</option>
+              <option>10:00 AM</option>
+              <option>11:00 AM</option>
+              <option>12:00 PM</option>
+              <option>2:00 PM</option>
+              <option>3:00 PM</option>
+              <option>4:00 PM</option>
+              <option>5:00 PM</option>
+              <option>6:00 PM</option>
+              <option>7:00 PM</option>
+              <option>8:00 PM</option>
+            </select>
+            <span class="error-msg">Please pick a time.</span>
+          </div>
+          <div class="form-group">
+            <label for="fNew">Have you visited us before?</label>
+            <select id="fNew">
+              <option value="New patient">New patient</option>
+              <option value="Returning patient">Returning patient</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="fNotes">Notes (optional)</label>
+            <textarea id="fNotes" placeholder="Anything the doctor should know — pain, sensitivity, previous treatment…"></textarea>
+          </div>
+          <div class="form-group full">
+            <button type="submit" class="btn btn-whatsapp btn-block" id="sendWa">
+              💬 Send Appointment Request on WhatsApp
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Lead dashboard (demo) -->
+<section class="section" id="dashboard" style="padding-top: 10px;">
+  <div class="container">
+    <div class="dash">
+      <div class="dash-header">
+        <h2>📋 Clinic Dashboard — Appointment Requests</h2>
+        <div class="dash-stats">
+          <div class="stat"><b id="statNew">0</b><span>New</span></div>
+          <div class="stat"><b id="statSent">0</b><span>WhatsApp Sent</span></div>
+          <div class="stat"><b id="statBooked">0</b><span>Booked</span></div>
+        </div>
+      </div>
+      <div id="dashBody">
+        <div class="empty" id="emptyState">
+          <p>No appointment requests yet in this demo.</p>
+          <button class="btn btn-secondary btn-sm" id="seedBtn" style="background:#e2e8f0;color:#0f172a;border:none;">Load sample leads</button>
+        </div>
+        <table id="leadTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Service</th>
+              <th>Requested</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+      </div>
+      <div class="dash-footer">
+        Demo dashboard — in the full version this is a live, saved list the clinic manages daily (confirm ✓, reschedule, follow up).
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><strong style="color:#fff;">DentalCare Clinic</strong> — Abbottabad</p>
+    <p>📍 Main Road, Abbottabad &nbsp;·&nbsp; 🕐 Mon–Sat, 10 AM – 8 PM</p>
+    <p>This is a sales demo page. Replace name, services &amp; number to match your clinic.</p>
+  </div>
+</footer>
+
+<a id="stickyWa" href="#appointment">💬 Book on WhatsApp</a>
+<div id="toast"></div>
+
+<script>
+  // ---- CONFIG: edit these to customize for a clinic ----
+  const CLINIC = {
+    name: "DentalCare Clinic",
+    whatsapp: "923001234567", // demo number, replace with clinic's number (country code, no +)
+    services: [
+      { icon: "🦷", name: "Checkup & Consultation", desc: "Full exam + treatment plan" },
+      { icon: "✨", name: "Scaling & Polishing", desc: "Deep cleaning, stain removal" },
+      { icon: "🦷", name: "Filling / Composite", desc: "Cavity repair, tooth-colored" },
+      { icon: "😁", name: "Teeth Whitening", desc: "Safe, in-clinic whitening" },
+      { icon: "🔧", name: "Root Canal Treatment", desc: "Save the tooth, stop the pain" },
+      { icon: "👶", name: "Kids Dentistry", desc: "Gentle care for children" },
+      { icon: "👑", name: "Crown & Bridge", desc: "Crowns, bridges, dentures" },
+      { icon: "🦷", name: "Extraction / Surgery", desc: "Wisdom teeth, surgical extractions" }
+    ]
+  };
+
+  // ---- Services render ----
+  const grid = document.getElementById("servicesGrid");
+  const serviceSelect = document.getElementById("fService");
+  let selectedService = "";
+
+  CLINIC.services.forEach((s) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "service-card";
+    card.innerHTML = `<span class="check">✓</span><div class="icon">${s.icon}</div><h3>${s.name}</h3><p>${s.desc}</p>`;
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".service-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      selectedService = s.name;
+      serviceSelect.value = s.name;
+      document.getElementById("appointment").scrollIntoView({ behavior: "smooth" });
+      toast(`Selected: ${s.name}`);
+    });
+    grid.appendChild(card);
+
+    const opt = document.createElement("option");
+    opt.value = s.name;
+    opt.textContent = s.name;
+    serviceSelect.appendChild(opt);
+  });
+
+  serviceSelect.addEventListener("change", () => {
+    selectedService = serviceSelect.value;
+    document.querySelectorAll(".service-card").forEach(c =>
+      c.classList.toggle("selected", c.querySelector("h3").textContent === selectedService));
+  });
+
+  // ---- Form validation + WhatsApp message ----
+  const form = document.getElementById("apptForm");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let ok = true;
+    ["fName", "fPhone", "fService", "fDate", "fTime"].forEach((id) => {
+      const el = document.getElementById(id);
+      const group = el.closest(".form-group");
+      const valid = el.value.trim() !== "";
+      group.classList.toggle("invalid", !valid);
+      if (!valid) ok = false;
+    });
+    if (!ok) { toast("Please fill the highlighted fields."); return; }
+
+    const name = document.getElementById("fName").value.trim();
+    const phone = document.getElementById("fPhone").value.trim();
+    const service = document.getElementById("fService").value;
+    const date = document.getElementById("fDate").value;
+    const time = document.getElementById("fTime").value;
+    const isNew = document.getElementById("fNew").value;
+    const notes = document.getElementById("fNotes").value.trim();
+
+    const msg =
+      `Assalamualaikum! I would like to book an appointment at ${CLINIC.name}.\n\n` +
+      `👤 Name: ${name}\n` +
+      `📞 Phone: ${phone}\n` +
+      `🦷 Service: ${service}\n` +
+      `📅 Preferred date: ${date}\n` +
+      `🕐 Preferred time: ${time}\n` +
+      `🆕 ${isNew}\n` +
+      (notes ? `📝 Notes: ${notes}\n` : "") +
+      `\n(Sent from ${CLINIC.name} website)`;
+
+    const url = `https://wa.me/${CLINIC.whatsapp}?text=${encodeURIComponent(msg)}`;
+
+    // Record the lead in the demo dashboard
+    addLead({ name, service, date, time });
+
+    window.open(url, "_blank");
+    toast("Opening WhatsApp with your appointment request…");
+  });
+
+  // ---- Demo dashboard ----
+  let leads = [];
+  function addLead(lead) {
+    leads.unshift({ ...lead, status: "New" });
+    renderLeads();
+  }
+  function renderLeads() {
+    const table = document.getElementById("leadTable");
+    const empty = document.getElementById("emptyState");
+    const rows = document.getElementById("leadRows");
+    if (leads.length === 0) { table.style.display = "none"; empty.style.display = "block"; }
+    else {
+      empty.style.display = "none";
+      table.style.display = "table";
+      rows.innerHTML = leads.map((l, i) => `
+        <tr>
+          <td><strong>${l.name}</strong><br><small style="color:#64748b">${l.date} · ${l.time}</small></td>
+          <td>${l.service}</td>
+          <td><small style="color:#64748b">just now</small></td>
+          <td><span class="status-pill status-${l.status.toLowerCase().replace(/ /g, "")}">${l.status}</span>
+            ${l.status === "New" ? `<br><button class="btn btn-sm" style="margin-top:6px;padding:4px 10px;font-size:0.75rem;background:#ede9fe;color:#6d28d9;border:none;" onclick="markBooked(${i})">Mark booked</button>` : ""}
+          </td>
+        </tr>`).join("");
+    }
+    const count = (s) => leads.filter(l => l.status === s).length;
+    document.getElementById("statNew").textContent = count("New");
+    document.getElementById("statSent").textContent = count("Sent");
+    document.getElementById("statBooked").textContent = count("Booked");
+  }
+  function markBooked(i) { leads[i].status = "Booked"; renderLeads(); }
+  window.markBooked = markBooked;
+
+  document.getElementById("seedBtn").addEventListener("click", () => {
+    leads = [
+      { name: "Ayesha Tariq", service: "Scaling & Polishing", date: "2026-09-18", time: "11:00 AM", status: "New" },
+      { name: "Bilal Ahmed", service: "Root Canal Treatment", date: "2026-09-17", time: "5:00 PM", status: "Sent" },
+      { name: "Sana Malik", service: "Teeth Whitening", date: "2026-09-19", time: "2:00 PM", status: "Booked" },
+      { name: "Usman Khan", service: "Checkup & Consultation", date: "2026-09-20", time: "10:00 AM", status: "New" }
+    ];
+    renderLeads();
+    toast("Sample leads loaded — this is what the clinic sees.");
+  });
+
+  // ---- Toast ----
+  let toastTimer;
+  function toast(text) {
+    const t = document.getElementById("toast");
+    t.textContent = text;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+  }
+
+  // ---- Min date = today ----
+  document.getElementById("fDate").min = new Date().toISOString().split("T")[0];
+
+  // ---- Lift sticky UI above CodeSandbox's free-hosting watermark (bottom-right) ----
+  if (/(^|\.)csb\.app$|(^|\.)csbusercontent\.com$/.test(location.hostname)) {
+    const bump = document.createElement("style");
+    bump.textContent = "#stickyWa{bottom:64px!important}#toast{bottom:126px!important}";
+    document.head.appendChild(bump);
+  }
+</script>
+
+</body>
+</html>

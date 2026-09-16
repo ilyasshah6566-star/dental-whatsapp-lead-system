@@ -1,0 +1,10 @@
+# App/editor internals
+.freebuff/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Real lead data — keep private, never push
+outreach/prospects.csv
