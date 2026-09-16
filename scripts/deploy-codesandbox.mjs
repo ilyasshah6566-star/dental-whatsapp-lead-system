@@ -1,8 +1,8 @@
-// Deploys demo/index.html to CodeSandbox's public "define" API (no account needed).
+// Deploys index.html (the demo) to CodeSandbox's public "define" API (no account needed).
 // Prints the sandbox id and the public static URL (csb.app).
 import { readFileSync } from "node:fs";
 
-const html = readFileSync(new URL("../demo/index.html", import.meta.url), "utf8");
+const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 
 const res = await fetch("https://codesandbox.io/api/v1/sandboxes/define?json=1", {
   method: "POST",

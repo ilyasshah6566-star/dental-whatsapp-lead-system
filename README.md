@@ -2,14 +2,14 @@
 
 Everything you need for tonight: **demo → prospect → conversation → payment → customize → deliver.**
 
-**🔴 Live demo:** https://3hk97g.csb.app/  
-**🚀 Redeploy after customizing:** `node scripts/deploy-codesandbox.mjs` → prints a fresh public URL
+**🔴 Live demo:** https://ilyasshah6566-star.github.io/dental-whatsapp-lead-system/
+**🚀 Redeploy anywhere:** update `index.html` and push — GitHub Pages redeploys automatically · `node scripts/deploy-codesandbox.mjs` gives a separate instant public URL
 
 ## What's in here
 
 | File | What it is |
 |---|---|
-| `demo/index.html` | The sales demo. Single file, no dependencies. Open in any browser. |
+| `index.html` | The sales demo. Single file, no dependencies. Also served by GitHub Pages at the repo URL. |
 | `outreach/prospects.csv` | Prospect tracker. 5 seed clinics + empty rows for tonight's research. |
 | `outreach/scripts.md` | Copy-paste WhatsApp scripts for every stage, including objections. |
 | `scripts/deploy-codesandbox.mjs` | One-command anonymous deploy to a public URL (no account needed). |
@@ -17,7 +17,7 @@ Everything you need for tonight: **demo → prospect → conversation → paymen
 ## Before you message anyone (10 minutes)
 
 1. **Host the demo so it's a link, not a file.** Easiest free options:
-   - **Net Drop:** drag `demo/index.html` onto https://app.netlify.com/drop — instant public URL.
+   - **Net Drop:** drag `index.html` onto https://app.netlify.com/drop — instant public URL.
    - **GitHub Pages:** push to a repo, enable Pages.
    - **Vercel:** `npx vercel demo/` (free tier).
    If you can't host right now: open the file in your browser, and send the **3 screenshots** + a 60-second screen recording instead. That works almost as well.
@@ -26,7 +26,7 @@ Everything you need for tonight: **demo → prospect → conversation → paymen
 
 ## Customizing the demo for a paying clinic (30–60 min)
 
-Open `demo/index.html` and edit the `CLINIC` object near the bottom:
+Open `index.html` and edit the `CLINIC` object near the bottom:
 
 ```js
 const CLINIC = {
